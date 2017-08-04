@@ -27,11 +27,17 @@ def get_dist_pixel_rate(img):
   dist_pixel_rate = dist_pixel / float(height * width)
   return dist_pixel_rate
 
-#3. contrast
-def get_contrast(img):
-  img_gray = cv2.cvtColor(img,cv2.COLOR_BGR2GRAY)
-  contrast = img_gray.max()-img_gray.min()
-  return contrast
+#3. colorfulness
+def image_colorfulness(img):
+  (B, G, R) = cv2.split(img.astype("float"))
+  rg = np.absolute(R - G)
+  yb = np.absolute(0.5 * (R + G) - B)
+  (rbMean, rbStd) = (np.mean(rg), np.std(rg))
+  (ybMean, ybStd) = (np.mean(yb), np.std(yb))
+  stdRoot = np.sqrt((rbStd ** 2) + (ybStd ** 2))
+  meanRoot = np.sqrt((rbMean ** 2) + (ybMean ** 2))
+  colorfulness = stdRoot + (0.3 * meanRoot)
+  return colorfulness
   
 #4. saturation
 def get_saturation(img):
