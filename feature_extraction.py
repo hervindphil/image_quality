@@ -1,6 +1,5 @@
 import numpy as np
 import cv2
-from scipy.signal import convolve2d
 
 #image object named 'img' is a numpy array with pixel value is BGR (opencv default)
 
